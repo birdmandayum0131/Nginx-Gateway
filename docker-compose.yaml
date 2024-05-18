@@ -3,7 +3,12 @@ version: '0.1'
 services:
   nginx-gateway:
     image: nginx-ssl #:stable-alpine3.19
-    build: .
+    build:
+      context: .
+      args:
+        SSL_CERT_PATH: ${SSL_CERT_PATH}
+        HTTP_USER: ${HTTP_USER}
+        HTTP_PASSWORD: ${HTTP_PASSWORD}
     restart: always
     volumes:
       - ./nginx-templates:/etc/nginx/templates
