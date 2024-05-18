@@ -1,0 +1,25 @@
+version: '0.1'
+
+services:
+  nginx-gateway:
+    image: nginx-ssl #:stable-alpine3.19
+    build: .
+    restart: always
+    volumes:
+      - ./nginx-templates:/etc/nginx/templates
+      # - ./certbot/www/:/var/www/certbot/:ro
+    environment:
+      - SERVER_DOMAIN=${DOMAIN_NAME}
+      - BACKEND_SERVER=${BACKEND_ENDPOINT}
+    ports:
+      - 80:80
+      - 443:443
+  # certbot:
+  #   image: certbot/certbot:latest
+  #   volumes:
+  #     - ./certbot/www/:/var/www/certbot/:rw
+  #     - ./certbot/conf/:/etc/letsencrypt/:rw
+
+networks:
+  default:
+    name: ${DOCKER_NETWORK}
